@@ -9,6 +9,6 @@ import lombok.*;
 @AllArgsConstructor
 public class AuthenticateRequest {
 
-    private String email;
+    private String username;
     private String password;
 }

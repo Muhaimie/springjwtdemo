@@ -1,6 +1,6 @@
 package com.example.springjwtdemo.service;
 
-import com.example.springjwtdemo.domain.User;
+import com.example.springjwtdemo.domain.AppUser;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
@@ -27,9 +27,9 @@ public class JWTService {
         return extractClaim(token, Claims::getExpiration).before(new Date());
     }
 
-    public boolean isTokenValid(String token, User user) {
+    public boolean isTokenValid(String token, AppUser appUser) {
         final String email = extractEmail(token);
-        return (email.equals(user.getEmail()) && !isTokenExpired(token));
+        return (email.equals(appUser.getEmail()) && !isTokenExpired(token));
     }
 
     public <T> T extractClaim(String token, Function<Claims, T> claimsResolver) {
@@ -45,16 +45,16 @@ public class JWTService {
                 .getBody();
     }
 
-    public String generateToken(User user) {
-        return generateToken(new HashMap<>(), user);
+    public String generateToken(AppUser appUser) {
+        return generateToken(new HashMap<>(), appUser);
     }
 
     private String generateToken(
             Map<String, Object> claims,
-            User user
+            AppUser appUser
     ) {
         return Jwts.builder().setClaims(claims)
-                .setSubject(user.getEmail())
+                .setSubject(appUser.getEmail())
                 .setIssuedAt(new Date(System.currentTimeMillis()))
                 .setExpiration(new Date(System.currentTimeMillis() + 1000 * 60 * 24))
                 .signWith(getSignInKey(), SignatureAlgorithm.HS256)

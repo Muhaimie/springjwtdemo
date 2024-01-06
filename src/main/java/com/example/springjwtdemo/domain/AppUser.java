@@ -14,19 +14,19 @@ import java.util.Collection;
 import java.util.List;
 
 @Entity
-@Table(name = "user")
-@Transactional
+@Table(name = "AppUser")
 @Data
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class User implements UserDetails {
+public class AppUser implements UserDetails {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private long id;
     private String firstname;
     private String lastname;
+    private String username;
     private String email;
     private String password;
 
@@ -37,7 +37,7 @@ public class User implements UserDetails {
 
     @Override
     public String getUsername() {
-        return firstname;
+        return username;
     }
 
     @Override

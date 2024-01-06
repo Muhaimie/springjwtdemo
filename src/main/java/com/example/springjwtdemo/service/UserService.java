@@ -1,28 +1,30 @@
 package com.example.springjwtdemo.service;
 
-import com.example.springjwtdemo.domain.User;
+import com.example.springjwtdemo.domain.AppUser;
 import com.example.springjwtdemo.repo.UserRepo;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 @Service
 @Slf4j
+@Transactional
 @RequiredArgsConstructor
 public class UserService {
     private final UserRepo userRepo;
 
-    public User saveUser(User user) {
-        log.info("Saving user: {}", user);
+    public AppUser saveUser(AppUser appUser) {
+        log.info("Saving user: {}", appUser);
         try {
-            userRepo.save(user);
+            userRepo.save(appUser);
         } catch (Exception e) {
             log.error("Error when handling saving user with error message, {}", e.getLocalizedMessage());
         }
-        return user;
+        return appUser;
     }
 
-    public User findByEmail(String email) {
+    public AppUser findByEmail(String email) {
         log.info("Finding user by email: {}", email);
         try {
             return userRepo.findUserByEmail(email).orElseThrow();

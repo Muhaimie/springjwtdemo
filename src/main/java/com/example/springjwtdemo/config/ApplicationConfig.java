@@ -1,7 +1,6 @@
 package com.example.springjwtdemo.config;
 
 import com.example.springjwtdemo.repo.UserRepo;
-import com.example.springjwtdemo.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

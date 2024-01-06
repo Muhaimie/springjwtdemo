@@ -1,13 +1,14 @@
 package com.example.springjwtdemo.config;
 
 
-import com.example.springjwtdemo.domain.User;
+import com.example.springjwtdemo.domain.AppUser;
 import com.example.springjwtdemo.service.JWTService;
 import com.example.springjwtdemo.service.UserService;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -27,7 +28,9 @@ public class JwtAuthFilter extends OncePerRequestFilter {
     private final UserService userService;
 
     @Override
-    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
+    protected void doFilterInternal(@NonNull HttpServletRequest request,
+                                    @NonNull HttpServletResponse response,
+                                    @NonNull FilterChain filterChain) throws ServletException, IOException {
         final String authHeader = request.getHeader(AUTHORIZATION_HEADER_NAME);
         final String jwt;
         final String email;
@@ -38,12 +41,12 @@ public class JwtAuthFilter extends OncePerRequestFilter {
             jwt = authHeader.substring(7);
             email = jwtService.extractEmail(jwt);
             if(email !=null && SecurityContextHolder.getContext().getAuthentication() == null){
-                User user = userService.findByEmail(email);
-                if(jwtService.isTokenValid(jwt, user)){
+                AppUser appUser = userService.findByEmail(email);
+                if(jwtService.isTokenValid(jwt, appUser)){
                     UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(
-                            user,
+                            appUser,
                             null,
-                            user.getAuthorities()
+                            appUser.getAuthorities()
                     );
                     authToken.setDetails(
                             new WebAuthenticationDetailsSource().buildDetails(request)
