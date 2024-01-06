@@ -21,15 +21,4 @@ public class UserService {
         }
         return user;
     }
-
-    public User findByEmail(String email) {
-        log.info("Finding user by email: {}", email);
-        try {
-            return userRepo.findUserByEmail(email).orElseThrow();
-        } catch (Exception e) {
-            log.error("Error when finding user via email: , {}", e.getLocalizedMessage());
-        }
-        return null;
-    }
-
 }
