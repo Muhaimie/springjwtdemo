@@ -19,7 +19,7 @@ public class JWTService {
 
     private static final String SECRET_KEY = "lwsi3obNOJ8caQOFxr2K7gGWMQ2ZWs7fyBSal5OaKyw";
 
-    private String extractEmail(String token) {
+    public String extractEmail(String token) {
         return extractClaim(token, Claims::getSubject);
     }
 
